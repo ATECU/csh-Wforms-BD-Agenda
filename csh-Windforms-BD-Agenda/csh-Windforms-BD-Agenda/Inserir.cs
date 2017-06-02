@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Data.SqlClient;
 
 namespace csh_Windforms_BD_Agenda
 {
@@ -33,11 +34,32 @@ namespace csh_Windforms_BD_Agenda
 
         private void btn_guardar_Click(object sender, EventArgs e)
         {
-            string nome = lbl_Nome.Text;
+            string nome = txt_nome.Text;
             int telef = 0;
             int.TryParse(txt_telef.Text, out telef);
-            string mail = lbl_Mail.Text;
+            string mail = txt_mail.Text;
             Contacto c = new Contacto(nome, telef, mail);
+            MessageBox.Show(c.toString());
+
+            try
+            {
+                string str = @"";
+                SqlConnection con = new SqlConnection(str);
+                SqlCommand cmd = new SqlCommand();
+                string sql = "insert into " + "Contacto (nome, telef, mail) values ('" 
+                    +  c.getNome() + "','" + c.getTelef() + "','" + c.getEmail() + "')";
+                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.CommandText = sql;
+                cmd.Connection = con;
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+            catch (Exception es)
+            {
+                MessageBox.Show(es.Message);
+            }
+
         }
     }
 }
