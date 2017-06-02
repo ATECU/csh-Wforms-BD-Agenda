@@ -37,6 +37,7 @@ namespace csh_Windforms_BD_Agenda
             int telef = 0;
             int.TryParse(txt_telef.Text, out telef);
             string mail = lbl_Mail.Text;
+            Contacto c = new Contacto(nome, telef, mail);
         }
     }
 }
